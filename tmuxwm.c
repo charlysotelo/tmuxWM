@@ -1,7 +1,7 @@
 /* TMUXWM.C
  * Copyright Jesse McClure 2015
  * License: GPLv3
- * Compile: gcc -o tmuxwm tmuxwm.c -lX11
+ * Compile: gcc -I/usr/X11R6/include -L/usr/X11R6/lib -o tmuxwm tmuxwm.c -lX11
  */
 
 #include <stdlib.h>
@@ -18,14 +18,15 @@ typedef const char * const Arg[];
  * code: By Me For Me.  So I don't care to separate it for your convenience.
  */
 
-Arg tmux_client = (Arg) { "st", "-e", "tmux", "attach", NULL };
+Arg tmux_client = (Arg) { "/usr/local/bin/urxvt", "-e", "tmux", "-2", "at", NULL };
 
 #include <X11/XF86keysym.h>
 static Bind bind[] = {
 	/* Windows */
 	{ XK_Return,          Mod1Mask, (Arg) { "tmux", "new-window", NULL } },
-	{ XK_j,		      Mod1Mask, (Arg) { "tmux", "previous-window", NULL } },
-	{ XK_k,		      Mod1Mask, (Arg) { "tmux", "next-window", NULL } },
+	{ XK_Tab,             Mod4Mask, (Arg) { "tmux", "next-window", NULL } },
+	{ XK_k,               Mod1Mask, (Arg) { "tmux", "next-window", NULL } },
+	{ XK_j,               Mod1Mask, (Arg) { "tmux", "previous-window", NULL } },
 	{ XK_1,               Mod1Mask, (Arg) { "tmux", "select-window", "-t", "1",  NULL } },
 	{ XK_2,               Mod1Mask, (Arg) { "tmux", "select-window", "-t", "2",  NULL } },
 	{ XK_3,               Mod1Mask, (Arg) { "tmux", "select-window", "-t", "3",  NULL } },
@@ -35,21 +36,22 @@ static Bind bind[] = {
 	{ XK_7,               Mod1Mask, (Arg) { "tmux", "select-window", "-t", "7",  NULL } },
 	{ XK_8,               Mod1Mask, (Arg) { "tmux", "select-window", "-t", "8",  NULL } },
 	{ XK_9,               Mod1Mask, (Arg) { "tmux", "select-window", "-t", "9",  NULL } },
-	{ XK_c,               Mod1Mask, (Arg) { "tmux", "kill-pane", NULL } },
 	/* Panes */
 	{ XK_h,               Mod1Mask, (Arg) { "tmux", "split-window", "-h", NULL} },
 	{ XK_v,               Mod1Mask, (Arg) { "tmux", "split-window", "-v", NULL} },
+	{ XK_c,               Mod1Mask, (Arg) { "tmux", "kill-pane", NULL} },
 	{ XK_space,           Mod1Mask, (Arg) { "tmux", "last-pane", NULL } },
+	/* Music! */
+	{ XK_Right,           Mod4Mask,    (Arg) { "/usr/local/bin/mocp", "--next", NULL} },
+	{ XK_Left,            Mod4Mask,    (Arg) { "/usr/local/bin/mocp", "--previous", NULL} },
+	{ XK_Down,            Mod4Mask,    (Arg) { "/usr/local/bin/mocp", "--toggle-pause", NULL} },
 	/* Launchers / Misc */
-	{ XK_w,               Mod4Mask,    (Arg) { "google-chrome", NULL} },
-/*	{ XK_Menu,                      0, (Arg) { "interrobang", NULL } },	*/
-	{ XK_F13,                    0, (Arg) { "scrot -q 75 '%Y-%m-%d-%H-%M-%S_$wx$h_scrot.png' -e 'mv $f /media/chad/img/Снимки/'", NULL } },			
-	{ XK_Left,            Mod4Mask, (Arg) { "mocp", "--prev", NULL } },
-	{ XK_Right,           Mod4Mask, (Arg) { "mocp", "--next", NULL } },
-	{ XK_Down,            Mod4Mask, (Arg) { "mocp", "-G", NULL } },
-	{ XK_l,               Mod4Mask, (Arg) { "slock", NULL } },
-	{ XK_t,               Mod4Mask, (Arg) { "st", NULL } },
-	{ XK_q,               Mod4Mask, (Arg) { "killall", "tmuxwm", NULL } },
+	{ XK_c,               Mod4Mask,    (Arg) { "/usr/local/bin/xdotool", "search", "--class", "surf", "windowkill", NULL} },
+	{ XK_w,               Mod4Mask,    (Arg) { "firefox-esr", NULL} },
+	{ XK_Menu,                      0, (Arg) { "interrobang", NULL } },
+	{ XK_l,           Mod4Mask, (Arg) { "slock", NULL} },
+	{ XK_t,           Mod4Mask, (Arg) { "/usr/local/bin/urxvt", NULL} },
+	{ XK_q,           Mod4Mask, (Arg) { "pkill", "tmuxwm", NULL} },
 };
 
 /* End of potential "config.h" content
@@ -152,8 +154,6 @@ void keypress(XEvent *ev) {
 	int i;
 	if (e->state == Mod1Mask && sym == XK_Tab)
 		XCirculateSubwindowsUp(dpy, root);
-	else if (e->state == (Mod1Mask|ShiftMask) && sym == XK_c)
-		XKillClient(dpy, e->subwindow);
 	else if (e->state == (Mod4Mask|ShiftMask) && sym == XK_Return)
 		spawn(tmux_client);
 	else for (i = 0; i < sizeof(bind)/sizeof(bind[0]); ++i)
