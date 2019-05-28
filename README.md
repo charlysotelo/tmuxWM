@@ -1,17 +1,11 @@
 # tmuxWM
 My custom tmuxWM.
 
-I'm using it in OpenBSD on my thinkpad.
+I'm using it as my primary OpenBSD WM on my Thinkpad X220.
 
-## Compilation & installation on OpenBSD 6.1
-
-**Compiling:**
+*How to install:*
 ```
-gcc -I/usr/X11R6/include -L/usr/X11R6/lib -o tmuxwm tmuxwm.c -lX11
-```
-**Installation:**
-```
-doas cp tmuxwm /usr/X11R6/bin/tmuxwm
+Use Makefile, Luke!
 ```
 
 Original: https://github.com/TrilbyWhite/junkdrawer
