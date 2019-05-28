@@ -18,7 +18,7 @@ typedef const char * const Arg[];
  * code: By Me For Me.  So I don't care to separate it for your convenience.
  */
 
-Arg tmux_client = (Arg) { "/usr/local/bin/urxvt", "-e", "tmux", "-2", "at", NULL };
+Arg tmux_client = (Arg) { "/usr/X11R6/bin/xterm", "-e", "tmux", "-2", "at", NULL };
 
 #include <X11/XF86keysym.h>
 static Bind bind[] = {
@@ -47,10 +47,11 @@ static Bind bind[] = {
 	{ XK_Down,            Mod4Mask,    (Arg) { "/usr/local/bin/mocp", "--toggle-pause", NULL} },
 	/* Launchers / Misc */
 	{ XK_c,               Mod4Mask,    (Arg) { "/usr/local/bin/xdotool", "search", "--class", "surf", "windowkill", NULL} },
-	{ XK_w,               Mod4Mask,    (Arg) { "firefox-esr", NULL} },
-	{ XK_Menu,                      0, (Arg) { "interrobang", NULL } },
+	{ XK_w,               Mod4Mask,    (Arg) { "/usr/local/bin/firefox-esr", NULL} },
+	{ XK_f,               Mod4Mask,    (Arg) { "xdotool", "getwindowfocus", "windowmove","0","0","windowsize","100%","100%", NULL} },
+	{ XK_s,               Mod4Mask,    (Arg) { "scrot", "-q", "75", "/media/img/Shots/%Y-%m-%d-%H-%M-%S_shot.png", NULL} },
 	{ XK_l,           Mod4Mask, (Arg) { "slock", NULL} },
-	{ XK_t,           Mod4Mask, (Arg) { "/usr/local/bin/urxvt", NULL} },
+	{ XK_t,           Mod4Mask, (Arg) { "/usr/X11R6/bin/xterm", NULL} },
 	{ XK_q,           Mod4Mask, (Arg) { "pkill", "tmuxwm", NULL} },
 };
 
