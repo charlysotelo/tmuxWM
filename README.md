@@ -5,7 +5,8 @@ I'm using it as my primary OpenBSD WM on my Thinkpad X220.
 
 *How to install:*
 ```
-Use Makefile, Luke!
+$ make
+# make install
 ```
 
-Original: https://github.com/TrilbyWhite/junkdrawer
+Forked from: https://github.com/TrilbyWhite/junkdrawer
