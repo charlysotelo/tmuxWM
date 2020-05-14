@@ -11,5 +11,6 @@ tmuxwm: ${OBJ}
 clean:
 	rm -f ${NAME}
 
-install: 
-	install ${NAME} /usr/local/bin/
+install: tmuxwm
+	doas rm /usr/X11R6/bin/tmuxwm
+	doas mv tmuxwm /usr/X11R6/bin/tmuxwm

@@ -18,7 +18,7 @@ typedef const char * const Arg[];
  * code: By Me For Me.  So I don't care to separate it for your convenience.
  */
 
-Arg tmux_client = (Arg) { "/usr/X11R6/bin/xterm", "-e", "tmux", "-2", "at", NULL };
+Arg tmux_client = (Arg) { "/usr/X11R6/bin/xterm", "-tn", "xterm-256color", "-e", "tmux", "-2", "at", NULL };
 
 #include <X11/XF86keysym.h>
 static Bind bind[] = {
